@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import { addUser } from '../redux/users.js';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -8,6 +9,10 @@ class Signup extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      email: '',
+      password: ''
+    };
     this.onSignupSubmit = this.onSignupSubmit.bind(this);
   }
 
@@ -22,6 +27,7 @@ class Signup extends React.Component {
               <input
                 name="email"
                 type="email"
+                onChange={(event) => this.handleChange("email", event.target.value)}
                 className="form-control"
                 required
               />
@@ -31,6 +37,7 @@ class Signup extends React.Component {
               <input
                 name="password"
                 type="password"
+                onChange={(event) => this.handleChange("password", event.target.value)}
                 className="form-control"
                 required
               />
@@ -58,16 +65,27 @@ class Signup extends React.Component {
     );
   }
 
+  handleChange(field, value) {
+    this.setState({[field]: value})
+    console.log(this.state);
+  }
+
   onSignupSubmit(event) {
     const { message } = this.props;
     event.preventDefault();
-    console.log(`${message} isn't implemented yet`);
+    this.props.createUser(this.state.email, this.state.password);
   }
 }
 
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = () => ({ message: 'Sign up' });
-const mapDispatch = null;
+const mapDispatch = function (dispatch) {
+  return {
+    createUser: function(email, password) {
+        return dispatch(addUser({email, password}))
+    }
+  }
+};
 
 export default connect(mapState, mapDispatch)(Signup);

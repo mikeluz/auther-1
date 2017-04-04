@@ -26,11 +26,25 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
+  console.log(req.body);
   User.create(req.body)
   .then(function (user) {
     res.status(201).json(user);
   })
   .catch(next);
+});
+
+router.get('/logout', function (req, res, next) {
+
+  // delete current session
+  req.session.destroy(function(err) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Session destroyed.");
+    }
+  });
+
 });
 
 router.get('/:id', function (req, res, next) {
@@ -80,5 +94,6 @@ router.post('/login', function (req, res, next) {
   .catch(next);
 
 });
+
 
 module.exports = router;
