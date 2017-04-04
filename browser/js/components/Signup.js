@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import { setCurrentUser } from '../redux/user.js';
 import { addUser } from '../redux/users.js';
 
 /* -----------------    COMPONENT     ------------------ */
@@ -66,8 +67,7 @@ class Signup extends React.Component {
   }
 
   handleChange(field, value) {
-    this.setState({[field]: value})
-    console.log(this.state);
+    this.setState({[field]: value});
   }
 
   onSignupSubmit(event) {
@@ -83,7 +83,10 @@ const mapState = () => ({ message: 'Sign up' });
 const mapDispatch = function (dispatch) {
   return {
     createUser: function(email, password) {
-        return dispatch(addUser({email, password}))
+        dispatch(addUser({email, password}))
+          .then((action) => {
+            dispatch(setCurrentUser(action.user))
+          });
     }
   }
 };

@@ -87,8 +87,7 @@ router.post('/login', function (req, res, next) {
     } else {
       console.log('Login Successfull');
       req.session.userId = user.id;
-      console.log(req.session);
-      res.status(200).send();
+      res.json(user);
     }
   })
   .catch(next);

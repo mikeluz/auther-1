@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { axios } from 'axios';
-import { loginUser} from '../redux/users'
+import { loginUser} from '../redux/user'
 import { browserHistory } from 'react-router';
 
 /* -----------------    COMPONENT     ------------------ */
@@ -10,8 +10,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'kalo@sokum.com',
-      password: 'rojgaf'
+      email: 'zeke@zeke.zeke',
+      password: '123'
     };
     this.onLoginSubmit = this.onLoginSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);

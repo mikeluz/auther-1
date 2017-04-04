@@ -14,7 +14,9 @@ class UserItem extends React.Component {
   }
 
   render () {
-    const { user } = this.props;
+
+
+    const { user, disableX } = this.props;
     return (
       <div className="list-group-item min-content user-item">
         <div className="media">
@@ -37,6 +39,7 @@ class UserItem extends React.Component {
           </Link>
           <div className="media-right media-middle">
             <button
+                disabled={disableX}
                 className="btn btn-default"
                 onClick={this.removeUserCallback}>
               <span className="glyphicon glyphicon-remove" />
@@ -48,6 +51,7 @@ class UserItem extends React.Component {
   }
 
   removeUserCallback (event) {
+    console.log('remove');
     const { removeUser, removeStory, user, stories } = this.props;
     event.stopPropagation();
     removeUser(user.id);

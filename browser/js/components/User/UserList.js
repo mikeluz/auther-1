@@ -35,7 +35,7 @@ class UserList extends Component {
         {
           this.props.users
             .filter(this.filterUser)
-            .map(user => <UserItem user={user} key={user.id} />)
+            .map(user => <UserItem user={user} key={user.id} disableX={this.props.user.isAdmin ? false : true}/>)
         }
         </div>
       </div>
@@ -151,7 +151,8 @@ class UserList extends Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = ({ users }) => ({ users });
+const mapState = ({ user, users }) => ({ user, users });
+
 
 const mapDispatch = { addUser };
 

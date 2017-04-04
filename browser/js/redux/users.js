@@ -6,7 +6,7 @@ const INITIALIZE = 'INITIALIZE_USERS';
 const CREATE     = 'CREATE_USER';
 export const REMOVE = 'REMOVE_USER';
 const UPDATE     = 'UPDATE_USER';
-const SET_CURRENT_USER = 'SET_CURRENT_USER'
+const SET_CURRENT_USER = 'SET_CURRENT_USER';
 
 
 /* ------------   ACTION CREATORS     ------------------ */
@@ -59,7 +59,7 @@ export const removeUser = id => dispatch => {
 
 export const addUser = user => dispatch => {
   console.log(user);
-  axios.post('/api/users', user)
+  return axios.post('/api/users', user)
        .then(res => dispatch(create(res.data)))
        .catch(err => console.error(`Creating user: ${user} unsuccesful`, err));
 };
@@ -70,13 +70,4 @@ export const updateUser = (id, user) => dispatch => {
        .catch(err => console.error(`Updating user: ${user} unsuccesful`, err));
 };
 
-export const loginUser = (email, password) => dispatch => {
-  return axios.post('api/users/login', {email: email, password: password})
-    .then(res => dispatch(set(res.data.id)))
-    .catch(err => console.error(`Login in User unsuccesful`, err))
-};
 
-export const logoutUser = () => dispatch => {
-  return axios.get('api/users/logout')
-     .catch(err => console.error('Logged out', err));
-};
