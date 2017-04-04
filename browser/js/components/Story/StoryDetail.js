@@ -29,7 +29,7 @@ class StoryDetail extends React.Component {
   }
 
   render() {
-    const {users} = this.props;
+    const { users, user } = this.props;
     const story = this.state.story;
     if (!story) return <div />; // the story id is invalid or the data isnt loaded yet
     return (
@@ -57,6 +57,7 @@ class StoryDetail extends React.Component {
         </ul>
         <br />
         <ContentEditable
+          disabled={!user.id} // isAdmin
           placeholder="(text here)"
           html={this.renderRawHTML()}
           onChange={evt => this.onStoryUpdate({ paragraphs: evt.target.value })}
@@ -94,9 +95,9 @@ class StoryDetail extends React.Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = ({ users, stories }, ownProps) => {
+const mapState = ({ users, stories, user }, ownProps) => {
   const story = stories.find(aStory => aStory.id === +ownProps.params.id);
-  return { story, users };
+  return { story, users, user };
 };
 
 const mapDispatch = (dispatch) => {
