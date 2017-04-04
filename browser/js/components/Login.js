@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { axios } from 'axios';
+import { loginUser} from '../redux/users'
 import { browserHistory } from 'react-router';
 
 /* -----------------    COMPONENT     ------------------ */
@@ -7,7 +9,12 @@ import { browserHistory } from 'react-router';
 class Login extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      email: 'kalo@sokum.com',
+      password: 'rojgaf'
+    };
     this.onLoginSubmit = this.onLoginSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   render() {
@@ -21,6 +28,8 @@ class Login extends React.Component {
               <input
                 name="email"
                 type="email"
+                value={this.state.email}
+                onChange={(event) => this.handleChange('email', event.target.value)}
                 className="form-control"
                 required
               />
@@ -30,6 +39,8 @@ class Login extends React.Component {
                 <input
                   name="password"
                   type="password"
+                  value={this.state.password}
+                  onChange={(event) => this.handleChange('password', event.target.value)}
                   className="form-control"
                   required
                 />
@@ -57,16 +68,28 @@ class Login extends React.Component {
     );
   }
 
+  handleChange(field, value){
+    this.setState({[field]:value})
+  }
+
   onLoginSubmit(event) {
-    const { message } = this.props;
     event.preventDefault();
-    console.log(`${message} isn't implemented yet`);
+    this.props.login(this.state.email, this.state.password)
+      .catch((err) => {
+        console.log(err)
+      });
   }
 }
 
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = () => ({ message: 'Log in' });
-const mapDispatch = null;
+const mapDispatch = function (dispatch) {
+  return {
+    login: function (email, password) {
+      return dispatch(loginUser(email, password));
+    }
+  }
+};
 
 export default connect(mapState, mapDispatch)(Login);

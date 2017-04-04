@@ -18,11 +18,6 @@ app.use(session({
   saveUninitialized: false
 }));
 
-app.use(function (req, res, next) {
-  console.log('session', req.session);
-  next();
-});
-
 // "Responding" middleware (may send a response back to client)
 
 app.use('/api', function (req, res, next) {

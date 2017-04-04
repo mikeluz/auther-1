@@ -71,7 +71,9 @@ router.post('/login', function (req, res, next) {
     if (!user) {
       res.status(401).send();
     } else {
+      console.log('Login Successfull');
       req.session.userId = user.id;
+      console.log(req.session);
       res.status(200).send();
     }
   })
