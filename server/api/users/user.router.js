@@ -57,4 +57,26 @@ router.delete('/:id', function (req, res, next) {
   .catch(next);
 });
 
+router.post('/login', function (req, res, next) {
+  var email = req.body.email;
+  var password = req.body.password;
+
+  User.findOne({
+    where: {
+      email: email,
+      password: password
+    }
+  })
+  .then(function (user) {
+    if (!user) {
+      res.status(401).send();
+    } else {
+      req.session.userId = user.id;
+      res.status(200).send();
+    }
+  })
+  .catch(next);
+
+});
+
 module.exports = router;
