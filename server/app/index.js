@@ -3,6 +3,8 @@
 var app = require('express')();
 var path = require('path');
 var session = require('express-session');
+const passport = require('passport');
+const googleStrategy = require('../api/oauth/google');
 
 // "Enhancing" middleware (does not send response, server-side effects only)
 
@@ -17,6 +19,10 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // "Responding" middleware (may send a response back to client)
 
@@ -39,5 +45,7 @@ validFrontendRoutes.forEach(function (stateRoute) {
 app.use(require('./statics.middleware'));
 
 app.use(require('./error.middleware'));
+
+
 
 module.exports = app;
