@@ -2,7 +2,6 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const User = require('../users/user.model');
 
-
 passport.use(
   new GoogleStrategy({
       clientID: '371068491564-g9cfu4bi76fmjvo2tampom75h23p19u4.apps.googleusercontent.com',
@@ -12,6 +11,8 @@ passport.use(
     // Google will send back the token and profile
     function (token, refreshToken, profile, done) {
       // the callback will pass back user profile information and each service (Facebook, Twitter, and Google) will pass it back a different way. Passport standardizes the information that comes back in its profile object.
+
+      console.log("Logging in");
 
       const info =  {
         name: profile.displayName,
@@ -25,13 +26,27 @@ passport.use(
           },
           defaults: info
         }
-      ).spread( function (user) {
+      ).spread(function (user) {
+        req.session.user = user;
         done(null, user)
 
       })
-        .catch(done)
-
+      .catch(done)
 
     })
 );
+
+passport.serializeUser(function (user, done) {
+  console.log("Serializing...");
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  console.log("Deserializing...");
+  User.findById(id)
+  .then(function (user) {
+    done(null, user);
+  })
+  .catch(done);
+});
 

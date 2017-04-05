@@ -5,6 +5,7 @@ var path = require('path');
 var session = require('express-session');
 const passport = require('passport');
 const googleStrategy = require('../api/oauth/google');
+const localStrategy = require('../api/oauth/local');
 
 // "Enhancing" middleware (does not send response, server-side effects only)
 
@@ -19,7 +20,6 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
-
 
 app.use(passport.initialize());
 app.use(passport.session());

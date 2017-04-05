@@ -5,6 +5,7 @@ var router = require('express').Router();
 var HttpError = require('../../utils/HttpError');
 var User = require('./user.model');
 var Story = require('../stories/story.model');
+var passport = require('passport');
 
 router.param('id', function (req, res, next, id) {
   User.findById(id)
@@ -72,27 +73,9 @@ router.delete('/:id', function (req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
-  var email = req.body.email;
-  var password = req.body.password;
-
-  User.findOne({
-    where: {
-      email: email,
-      password: password
-    }
-  })
-  .then(function (user) {
-    if (!user) {
-      res.status(401).send();
-    } else {
-      console.log('Login Successfull');
-      req.session.userId = user.id;
-      res.json(user);
-    }
-  })
-  .catch(next);
-
+  passport.authenticate('local', { successRedirect: '/',
+                                   failureRedirect: '/login',
+                                   failureFlash: true });
 });
-
 
 module.exports = router;
